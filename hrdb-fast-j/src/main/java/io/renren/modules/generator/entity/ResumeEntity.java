@@ -1,11 +1,13 @@
 package io.renren.modules.generator.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import org.apache.solr.client.solrj.beans.Field;
 
 /**
  * InnoDB free: 9216 kB
@@ -152,5 +154,117 @@ public class ResumeEntity implements Serializable {
 	 * 备注2
 	 */
 	private Long resBz2;
+	/**
+	 * 预约时间
+	 * */
+    @TableField(exist = false)
+	private String intwBookTime;
 
+	public Long getResId() {
+		return resId;
+	}
+
+	public String getResBirthday() {
+		return resBirthday;
+	}
+
+	public void setResBirthday(String resBirthday) {
+		this.resBirthday = resBirthday;
+	}
+
+	public String getResInCollege() {
+		return resInCollege;
+	}
+
+	public void setResInCollege(String resInCollege) {
+		this.resInCollege = resInCollege;
+	}
+
+	public String getResOutCollege() {
+		return resOutCollege;
+	}
+
+	public void setResOutCollege(String resOutCollege) {
+		this.resOutCollege = resOutCollege;
+	}
+
+	public String getIntwBookTime() {
+        return intwBookTime;
+    }
+
+    public void setIntwBookTime(String intwBookTime) {
+        this.intwBookTime = intwBookTime;
+    }
+
+    public Long getResHrId() {
+        return resHrId;
+    }
+
+    public void setResHrId(Long resHrId) {
+        this.resHrId = resHrId;
+    }
+
+    public String getResMobile() {
+        return resMobile;
+    }
+
+    public void setResMobile(String resMobile) {
+        this.resMobile = resMobile;
+    }
+
+	public String getResName() {
+		return resName;
+	}
+
+	public void setResName(String resName) {
+		this.resName = resName;
+	}
+
+	public Date getResTime() {
+		return resTime;
+	}
+
+	public void setResTime(Date resTime) {
+		this.resTime = resTime;
+	}
+
+	@Override
+	public String toString() {
+		return "ResumeEntity{" +
+				"resId=" + resId +
+				", resName='" + resName + '\'' +
+				", resAge=" + resAge +
+				", resGender='" + resGender + '\'' +
+				", resMarriage='" + resMarriage + '\'' +
+				", resEducation='" + resEducation + '\'' +
+				", resCollege='" + resCollege + '\'' +
+				", resMajor='" + resMajor + '\'' +
+				", resEnglish='" + resEnglish + '\'' +
+				", resInCollege='" + resInCollege + '\'' +
+				", resOutCollege='" + resOutCollege + '\'' +
+				", resCity='" + resCity + '\'' +
+				", resWorkYear='" + resWorkYear + '\'' +
+				", resBirthday='" + resBirthday + '\'' +
+				", resHometown='" + resHometown + '\'' +
+				", resMobile='" + resMobile + '\'' +
+				", resMail='" + resMail + '\'' +
+				", resEvaluate='" + resEvaluate + '\'' +
+				", resExpectedArea='" + resExpectedArea + '\'' +
+				", resExpectedWork='" + resExpectedWork + '\'' +
+				", resExpectedOccupation='" + resExpectedOccupation + '\'' +
+				", resExpectedSalary='" + resExpectedSalary + '\'' +
+				", resCurrentAtate='" + resCurrentAtate + '\'' +
+				", resExpectedIndustry='" + resExpectedIndustry + '\'' +
+				", resWorkExperience='" + resWorkExperience + '\'' +
+				", resProjectExperience='" + resProjectExperience + '\'' +
+				", resProfessionalSkill='" + resProfessionalSkill + '\'' +
+				", resInterest='" + resInterest + '\'' +
+				", resTime=" + resTime +
+				", resHrId=" + resHrId +
+				", resFrom=" + resFrom +
+				", resBz1='" + resBz1 + '\'' +
+				", resBz2=" + resBz2 +
+				", intwBookTime='" + intwBookTime + '\'' +
+				'}';
+	}
 }

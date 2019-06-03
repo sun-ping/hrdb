@@ -1,9 +1,18 @@
 package io.renren.modules.generator.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import io.renren.modules.generator.utils.SolrUtil;
+import io.renren.modules.sys.controller.AbstractController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +36,7 @@ import io.renren.common.utils.R;
  */
 @RestController
 @RequestMapping("generator/resume")
-public class ResumeController {
+public class ResumeController extends AbstractController {
     @Autowired
     private ResumeService resumeService;
 
@@ -37,9 +46,15 @@ public class ResumeController {
     @RequestMapping("/list")
     @RequiresPermissions("generator:resume:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = resumeService.queryPage(params);
-
-        return R.ok().put("page", page);
+//         分页
+//        PageUtils page = resumeService.queryPage(params);
+//         登陆人只能看到自己录入的简历
+        List<ResumeEntity> list = resumeService.getByresHrId(getUserId());
+        System.out.println(list.size());
+        for (ResumeEntity entity : list) {
+            System.out.println(entity.toString());
+        }
+        return R.ok().put("list", list);
     }
 
 
@@ -84,6 +99,35 @@ public class ResumeController {
     public R delete(@RequestBody Long[] resIds){
 		resumeService.removeByIds(Arrays.asList(resIds));
 
+        return R.ok();
+    }
+
+    /**
+     * 查询solr数据
+     */
+
+    @RequestMapping("/getSolrData")
+    public R getSolrData(String keywords) throws IOException, SolrServerException {
+        System.out.println(keywords);
+        SolrDocumentList solrList = SolrUtil.query("item_keywords:"+keywords).getResults();
+        List<String> resIdList = new ArrayList<>();
+        if (solrList != null && solrList.size() > 0){
+            for (SolrDocument solrDocument : solrList) {
+                resIdList.add(solrDocument.getFieldValue("res_id").toString());
+            }
+        }
+        List<ResumeEntity> list = new ArrayList<>();
+
+        for (String s : resIdList) {
+            System.out.println(s);
+            list.add(resumeService.getById(Integer.parseInt(s)));
+        }
+
+        return R.ok().put("list",list);
+    }
+
+    @RequestMapping("getShare")
+    public R getShare(){
         return R.ok();
     }
 
