@@ -8,6 +8,7 @@
         <el-button @click="getDataList()">查询</el-button>
         <el-button v-if="isAuth('generator:interview:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
         <el-button v-if="isAuth('generator:interview:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button v-if="isAuth('generator:interview:save')" type="primary" @click="intwAddHandle()">新增预约</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -60,6 +61,7 @@
       </el-table-column>
       <el-table-column
         prop="intwState"
+        :formatter="statusFormat1"
         header-align="center"
         align="center"
         label="当前状态">
@@ -71,18 +73,6 @@
         label="操作时间">
       </el-table-column>
       <el-table-column
-        prop="intwBz1"
-        header-align="center"
-        align="center"
-        label="备注1">
-      </el-table-column>
-      <el-table-column
-        prop="intwBz2"
-        header-align="center"
-        align="center"
-        label="备注2">
-      </el-table-column>
-      <el-table-column
         fixed="right"
         header-align="center"
         align="center"
@@ -91,6 +81,7 @@
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.intwId)">修改</el-button>
           <el-button type="text" size="small" @click="deleteHandle(scope.row.intwId)">删除</el-button>
+          <el-button type="text" size="small" @click="recordHandle(scope.row.intwId)">面试</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -105,11 +96,15 @@
     </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+    <interview-add v-if="intwAddVisible" ref="intwAdd" @refreshDataList="getDataList"></interview-add>
+    <interview-record v-if="recordVisible" ref="recordAdd" @refreshDataList="getDataList"></interview-record>
   </div>
 </template>
 
 <script>
   import AddOrUpdate from './interview-add-or-update'
+  import InterviewAdd from './interview-add'
+  import InterviewRecord from './interview-record'
   export default {
     data () {
       return {
@@ -122,11 +117,15 @@
         totalPage: 0,
         dataListLoading: false,
         dataListSelections: [],
-        addOrUpdateVisible: false
+        addOrUpdateVisible: false,
+        intwAddVisible: false,
+        recordVisible: false,
       }
     },
     components: {
-      AddOrUpdate
+      AddOrUpdate,
+      InterviewAdd,
+      InterviewRecord
     },
     activated () {
       this.getDataList()
@@ -154,6 +153,20 @@
           this.dataListLoading = false
         })
       },
+      // 修改status
+      statusFormat1: function(row, column) {
+          let statusW = "未面试";
+          let status = row.intwState;
+          switch(status) {
+           case 1:
+           statusW = "已面试";
+           break;
+           case 2:
+           statusW = "未面试";
+           break;
+          }
+          return statusW;
+      },
       // 每页数
       sizeChangeHandle (val) {
         this.pageSize = val
@@ -174,6 +187,20 @@
         this.addOrUpdateVisible = true
         this.$nextTick(() => {
           this.$refs.addOrUpdate.init(id)
+        })
+      },
+      // 面试
+      recordHandle (id){
+        this.recordVisible = true;
+        this.$nextTick(()=>{
+        this.$refs.recordAdd.init(id);
+        })
+      },
+      //新增预约
+      intwAddHandle (){
+        this.intwAddVisible = true;
+        this.$nextTick(()=>{
+          this.$refs.intwAdd.init();
         })
       },
       // 删除

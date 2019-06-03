@@ -5,9 +5,10 @@
         <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('generator:resume:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button @click="getSolrData(dataForm.key)">查询</el-button>
+        <!-- <el-button v-if="isAuth('generator:resume:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button> -->
         <el-button v-if="isAuth('generator:resume:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button type="primary" @click="getShare()">分享获取的简历</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -23,22 +24,10 @@
         width="50">
       </el-table-column>
       <el-table-column
-        prop="resId"
-        header-align="center"
-        align="center"
-        label="简历ID">
-      </el-table-column>
-      <el-table-column
         prop="resName"
         header-align="center"
         align="center"
         label="姓名">
-      </el-table-column>
-      <el-table-column
-        prop="resAge"
-        header-align="center"
-        align="center"
-        label="年龄">
       </el-table-column>
       <el-table-column
         prop="resGender"
@@ -47,22 +36,10 @@
         label="性别">
       </el-table-column>
       <el-table-column
-        prop="resMarriage"
-        header-align="center"
-        align="center"
-        label="婚姻">
-      </el-table-column>
-      <el-table-column
         prop="resEducation"
         header-align="center"
         align="center"
         label="学历">
-      </el-table-column>
-      <el-table-column
-        prop="resCollege"
-        header-align="center"
-        align="center"
-        label="毕业院校">
       </el-table-column>
       <el-table-column
         prop="resMajor"
@@ -71,28 +48,10 @@
         label="所学专业">
       </el-table-column>
       <el-table-column
-        prop="resEnglish"
-        header-align="center"
-        align="center"
-        label="英语水平">
-      </el-table-column>
-      <el-table-column
-        prop="resInCollege"
-        header-align="center"
-        align="center"
-        label="入学时间">
-      </el-table-column>
-      <el-table-column
         prop="resOutCollege"
         header-align="center"
         align="center"
         label="毕业时间">
-      </el-table-column>
-      <el-table-column
-        prop="resCity"
-        header-align="center"
-        align="center"
-        label="居住城市">
       </el-table-column>
       <el-table-column
         prop="resWorkYear"
@@ -101,94 +60,10 @@
         label="工作年限">
       </el-table-column>
       <el-table-column
-        prop="resBirthday"
+        prop="resCity"
         header-align="center"
         align="center"
-        label="出生年月">
-      </el-table-column>
-      <el-table-column
-        prop="resHometown"
-        header-align="center"
-        align="center"
-        label="户籍">
-      </el-table-column>
-      <el-table-column
-        prop="resMobile"
-        header-align="center"
-        align="center"
-        label="手机号码">
-      </el-table-column>
-      <el-table-column
-        prop="resMail"
-        header-align="center"
-        align="center"
-        label="邮箱">
-      </el-table-column>
-      <el-table-column
-        prop="resEvaluate"
-        header-align="center"
-        align="center"
-        label="自我评价">
-      </el-table-column>
-      <el-table-column
-        prop="resExpectedArea"
-        header-align="center"
-        align="center"
-        label="期望工作地区">
-      </el-table-column>
-      <el-table-column
-        prop="resExpectedWork"
-        header-align="center"
-        align="center"
-        label="期望工作性质">
-      </el-table-column>
-      <el-table-column
-        prop="resExpectedOccupation"
-        header-align="center"
-        align="center"
-        label="期望工作职业">
-      </el-table-column>
-      <el-table-column
-        prop="resExpectedSalary"
-        header-align="center"
-        align="center"
-        label="期望月薪">
-      </el-table-column>
-      <el-table-column
-        prop="resCurrentAtate"
-        header-align="center"
-        align="center"
-        label="目前状况">
-      </el-table-column>
-      <el-table-column
-        prop="resExpectedIndustry"
-        header-align="center"
-        align="center"
-        label="期望从事行业">
-      </el-table-column>
-      <el-table-column
-        prop="resWorkExperience"
-        header-align="center"
-        align="center"
-        label="工作经历">
-      </el-table-column>
-      <el-table-column
-        prop="resProjectExperience"
-        header-align="center"
-        align="center"
-        label="项目经验">
-      </el-table-column>
-      <el-table-column
-        prop="resProfessionalSkill"
-        header-align="center"
-        align="center"
-        label="专业技能">
-      </el-table-column>
-      <el-table-column
-        prop="resInterest"
-        header-align="center"
-        align="center"
-        label="兴趣爱好">
+        label="居住城市">
       </el-table-column>
       <el-table-column
         prop="resTime"
@@ -197,42 +72,20 @@
         label="录入时间">
       </el-table-column>
       <el-table-column
-        prop="resHrId"
-        header-align="center"
-        align="center"
-        label="录入人">
-      </el-table-column>
-      <el-table-column
-        prop="resFrom"
-        header-align="center"
-        align="center"
-        label="来源">
-      </el-table-column>
-      <el-table-column
-        prop="resBz1"
-        header-align="center"
-        align="center"
-        label="备注1">
-      </el-table-column>
-      <el-table-column
-        prop="resBz2"
-        header-align="center"
-        align="center"
-        label="备注2">
-      </el-table-column>
-      <el-table-column
         fixed="right"
         header-align="center"
         align="center"
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.resId)">修改</el-button>
+          <el-button type="text" size="small" @click="resDataHandle(scope.row.resId)">详情</el-button>
           <el-button type="text" size="small" @click="deleteHandle(scope.row.resId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
+
+    <!-- 分页 -->
+    <!-- <el-pagination
       @size-change="sizeChangeHandle"
       @current-change="currentChangeHandle"
       :current-page="pageIndex"
@@ -240,14 +93,19 @@
       :page-size="pageSize"
       :total="totalPage"
       layout="total, sizes, prev, pager, next, jumper">
-    </el-pagination>
+    </el-pagination> -->
+
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+    <!-- 详情页 -->
+    <res-data v-if="resDataVisible" ref="resData" ></res-data>
   </div>
 </template>
 
 <script>
   import AddOrUpdate from './resume-add-or-update'
+  import ResData from './resData'
+  import Vue from 'vue'
   export default {
     data () {
       return {
@@ -260,11 +118,13 @@
         totalPage: 0,
         dataListLoading: false,
         dataListSelections: [],
-        addOrUpdateVisible: false
+        addOrUpdateVisible: false,
+        resDataVisible:false
       }
     },
     components: {
-      AddOrUpdate
+      AddOrUpdate,
+      ResData
     },
     activated () {
       this.getDataList()
@@ -277,19 +137,52 @@
           url: this.$http.adornUrl('/generator/resume/list'),
           method: 'get',
           params: this.$http.adornParams({
-            'page': this.pageIndex,
-            'limit': this.pageSize,
-            'key': this.dataForm.key
+            // 'page': this.pageIndex,
+            // 'limit': this.pageSize,
+            // 'key': this.dataForm.key
           })
         }).then(({data}) => {
           if (data && data.code === 0) {
-            this.dataList = data.page.list
-            this.totalPage = data.page.totalCount
+            this.dataList = data.list
+            this.changeDate();
+            // this.totalPage = data.page.totalCount
           } else {
             this.dataList = []
-            this.totalPage = 0
+            // this.totalPage = 0
           }
           this.dataListLoading = false
+        })
+      },
+
+      //获取分享的简历
+      getShare(){
+        this.dataListLoading = true
+        this.$http({
+          url: this.$http.adornUrl('/generator/resume/getShare'),
+          method: 'get',
+          params: this.$http.adornParams({
+
+          })
+        }).then(({data}) => {
+          if (data && data.code === 0) {
+            this.dataList = data.list
+            this.changeDate();
+          } else {
+            this.dataList = []
+          }
+          this.dataListLoading = false
+        })
+      },
+      // 对resTime进行排序
+      changeDate(){
+        this.dataList.sort((a,b)=>{
+          let aTimeString = a.resTime;
+          let bTimeString = b.resTime;
+          aTimeString = aTimeString.replace(/-/g,'/');
+          bTimeString = bTimeString.replace(/-/g,'/');
+          let aTime = new Date(aTimeString).getTime()
+          let bTime = new Date(bTimeString).getTime()
+          return bTime - aTime;
         })
       },
       // 每页数
@@ -312,6 +205,40 @@
         this.addOrUpdateVisible = true
         this.$nextTick(() => {
           this.$refs.addOrUpdate.init(id)
+        })
+      },
+      //详情页
+      resDataHandle (id){
+        this.resDataVisible = true
+        this.$nextTick(()=>{
+          this.$refs.resData.init(id)
+        })
+      },
+      //查询solr数据
+      getSolrData (val){
+        this.dataListLoading = true;
+        console.log(val);
+        if(val){
+          val = '*';
+        }
+        this.$http({
+          url: this.$http.adornUrl('/generator/resume/getSolrData'),
+          method: 'get',
+          params: this.$http.adornParams({
+            // 'page': this.pageIndex,
+            // 'limit': this.pageSize,
+            'keywords': val
+          })
+        }).then(({data}) => {
+          if (data && data.code === 0) {
+            this.dataList = data.list
+            this.changeDate();
+            // this.totalPage = data.page.totalCount
+          } else {
+            this.dataList = []
+            // this.totalPage = 0
+          }
+          this.dataListLoading = false
         })
       },
       // 删除
