@@ -1,5 +1,6 @@
 package io.renren.modules.generator.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -65,9 +66,16 @@ public class RecordEntity implements Serializable {
 	 */
 	private Long recBz2;
 
+	@TableField(exist = false)
+	private long intwId;
 
-	public static long getSerialVersionUID() {
-		return serialVersionUID;
+	public long getIntwId() {
+		return intwId;
+	}
+
+	public void setIntwId(long intwId) {
+		this.intwId = intwId;
+
 	}
 
 	public Long getRecId() {
@@ -157,4 +165,22 @@ public class RecordEntity implements Serializable {
 	public void setRecBz2(Long recBz2) {
 		this.recBz2 = recBz2;
 	}
+
+	@Override
+	public String toString() {
+		return "RecordEntity{" +
+				"recId=" + recId +
+				", recRId=" + recRId +
+				", recHrId=" + recHrId +
+				", recCommunicate=" + recCommunicate +
+				", recSkill=" + recSkill +
+				", recStudy='" + recStudy + '\'' +
+				", recEq='" + recEq + '\'' +
+				", recImpression='" + recImpression + '\'' +
+				", recTime=" + recTime +
+				", recBz1='" + recBz1 + '\'' +
+				", recBz2=" + recBz2 +
+				'}';
+	}
+
 }

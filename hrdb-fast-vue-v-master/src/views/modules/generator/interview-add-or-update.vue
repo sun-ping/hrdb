@@ -14,16 +14,30 @@
       <el-input v-model="dataForm.intwMobile" placeholder="应聘者电话"></el-input>
     </el-form-item>
     <el-form-item label="预约时间" prop="intwBookTime">
-      <el-input v-model="dataForm.intwBookTime" placeholder="预约时间"></el-input>
+      <el-date-picker
+        v-model="dataForm.intwBookTime"
+        type="datetime"
+        placeholder="选择日期">
+      </el-date-picker>
     </el-form-item>
     <el-form-item label="预约人" prop="intwHrId">
       <el-input v-model="dataForm.intwHrId" placeholder="预约人"></el-input>
     </el-form-item>
     <el-form-item label="当前状态" prop="intwState">
-      <el-input v-model="dataForm.intwState" placeholder="当前状态"></el-input>
+      <el-select v-model="dataForm.intwState" placeholder="请选择">
+          <el-option v-for="item in options1" 
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+          </el-option>
+      </el-select>
     </el-form-item>
     <el-form-item label="操作时间" prop="intwTime">
-      <el-input v-model="dataForm.intwTime" placeholder="操作时间"></el-input>
+      <el-date-picker
+        v-model="dataForm.intwTime"
+        type="date"
+        placeholder="选择日期">
+      </el-date-picker>
     </el-form-item>
     <el-form-item label="备注1" prop="intwBz1">
       <el-input v-model="dataForm.intwBz1" placeholder="备注1"></el-input>
@@ -56,6 +70,13 @@
           intwBz1: '',
           intwBz2: ''
         },
+        options1:[{
+          value:'1',
+          label:'未面试'
+        },{
+          value:'2',
+          label:'已面试'
+        }],
         dataRule: {
           intwResumeId: [
             { required: true, message: '简历ID不能为空', trigger: 'blur' }

@@ -61,4 +61,100 @@ public class InterviewEntity implements Serializable {
 	 */
 	private Long intwBz2;
 
+
+	public Long getIntwId() {
+		return intwId;
+	}
+
+	public void setIntwId(Long intwId) {
+		this.intwId = intwId;
+	}
+
+	public Long getIntwResumeId() {
+		return intwResumeId;
+	}
+
+	public void setIntwResumeId(Long intwResumeId) {
+		this.intwResumeId = intwResumeId;
+	}
+
+	public String getIntwName() {
+		return intwName;
+	}
+
+	public void setIntwName(String intwName) {
+		this.intwName = intwName;
+	}
+
+	public String getIntwMobile() {
+		return intwMobile;
+	}
+
+	public void setIntwMobile(String intwMobile) {
+		this.intwMobile = intwMobile;
+	}
+
+	public String getIntwBookTime() {
+		return intwBookTime;
+	}
+
+	public void setIntwBookTime(String intwBookTime) {
+		this.intwBookTime = intwBookTime;
+	}
+
+	public Long getIntwHrId() {
+		return intwHrId;
+	}
+
+	public void setIntwHrId(Long intwHrId) {
+		this.intwHrId = intwHrId;
+	}
+
+	public Long getIntwState() {
+		return intwState;
+	}
+
+	public void setIntwState(Long intwState) {
+		this.intwState = intwState;
+	}
+
+	public Date getIntwTime() {
+		return intwTime;
+	}
+
+	public void setIntwTime(Date intwTime) {
+		this.intwTime = intwTime;
+	}
+
+	public String getIntwBz1() {
+		return intwBz1;
+	}
+
+	public void setIntwBz1(String intwBz1) {
+		this.intwBz1 = intwBz1;
+	}
+
+	public Long getIntwBz2() {
+		return intwBz2;
+	}
+
+	public void setIntwBz2(Long intwBz2) {
+		this.intwBz2 = intwBz2;
+	}
+
+	@Override
+	public String toString() {
+		return "InterviewEntity{" +
+				"intwId=" + intwId +
+				", intwResumeId=" + intwResumeId +
+				", intwName='" + intwName + '\'' +
+				", intwMobile='" + intwMobile + '\'' +
+				", intwBookTime='" + intwBookTime + '\'' +
+				", intwHrId=" + intwHrId +
+				", intwState=" + intwState +
+				", intwTime=" + intwTime +
+				", intwBz1='" + intwBz1 + '\'' +
+				", intwBz2=" + intwBz2 +
+				'}';
+	}
 }

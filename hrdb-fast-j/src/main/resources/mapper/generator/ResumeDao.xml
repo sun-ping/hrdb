@@ -40,5 +40,11 @@
         <result property="resBz2" column="res_bz2"/>
     </resultMap>
 
-
+    <insert id="insertResume" parameterType="io.renren.modules.generator.entity.ResumeEntity" useGeneratedKeys="true" keyProperty="resId">
+        insert into resume (res_id,res_name,res_age,res_gender,res_marriage,res_education,res_college,res_major,res_english,res_in_college,res_out_college,res_city,res_work_year,res_birthday,res_hometown,res_mobile,res_mail,res_evaluate,res_expected_area,res_expected_work,res_expected_occupation,res_expected_salary,res_current_atate,res_expected_industry,res_work_experience,res_project_experience,res_professional_skill,res_interest,res_time,res_hr_id,res_from,res_bz1,res_bz2)
+        values(null ,#{resName},#{resAge},#{resGender},#{resMarriage},#{resEducation},#{resCollege},#{resMajor},#{resEnglish},#{resInCollege},#{resOutCollege},#{resCity},#{resWorkYear},#{resBirthday},#{resHometown},#{resMobile},#{resMail},#{resEvaluate},#{resExpectedArea},#{resExpectedWork},#{resExpectedOccupation},#{resExpectedSalary},#{resCurrentAtate},#{resExpectedIndustry},#{resWorkExperience},#{resProjectExperience},#{resProfessionalSkill},#{resInterest},#{resTime},#{resHrId},#{resFrom},#{resBz1},#{resBz2});
+    </insert>
+    <select id="getByresHrId" parameterType="long" resultType="io.renren.modules.generator.entity.ResumeEntity">
+        select * from resume where res_hr_id = #{id};
+    </select>
 </mapper>
