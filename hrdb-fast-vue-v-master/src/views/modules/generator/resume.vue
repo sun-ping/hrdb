@@ -105,7 +105,6 @@
 <script>
   import AddOrUpdate from './resume-add-or-update'
   import ResData from './resData'
-  import Vue from 'vue'
   export default {
     data () {
       return {
@@ -175,7 +174,7 @@
       },
       // 对resTime进行排序
       changeDate(){
-        this.dataList.sort((a,b)=>{
+          this.dataList.sort((a,b)=>{
           let aTimeString = a.resTime;
           let bTimeString = b.resTime;
           aTimeString = aTimeString.replace(/-/g,'/');

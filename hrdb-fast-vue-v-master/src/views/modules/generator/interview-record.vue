@@ -16,6 +16,37 @@
     <el-form-item label="预约人" prop="intwHrId">
       <el-input v-model="dataForm.intwHrId" placeholder="预约人" readonly="true"></el-input>
     </el-form-item>
+    <el-form-item label="已面试结果">
+     <el-table
+      :data="tableData"
+      border
+      style="width: 100%">
+      <el-table-column
+        prop="recHrId"
+        label="面试人">
+      </el-table-column>
+      <el-table-column
+        prop="recCommunicate"
+        label="沟通能力">
+      </el-table-column>
+      <el-table-column
+        prop="recSkill"
+        label="技能水平">
+      </el-table-column>
+       <el-table-column
+        prop="recStudy"
+        label="学习能力">
+      </el-table-column>
+       <el-table-column
+        prop="recEq"
+        label="情商">
+      </el-table-column>
+       <el-table-column
+        prop="recImpression"
+        label="面试印象">
+      </el-table-column>
+    </el-table>
+    </el-form-item>
     <el-form-item label="沟通能力" prop="recCommunicate">
       <el-select v-model="dataForm.recCommunicate" placeholder="请选择">
           <el-option v-for="item in options1" 
@@ -53,13 +84,7 @@
       </el-select>
     </el-form-item>
     <el-form-item label="面试印象" prop="recImpression">
-      <el-select v-model="dataForm.recImpression" placeholder="请选择">
-          <el-option v-for="item in options5" 
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-          </el-option>
-      </el-select>
+      <el-input v-model="dataForm.recImpression" placeholder="面试印象"></el-input>
     </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -85,6 +110,7 @@
           recEq: '',
           recImpression: '',
         },
+        tableData:[],
         options1:[{
           value:'1',
           label:'一般'
@@ -113,13 +139,7 @@
           value: '高',
           label: '高'
         }],
-        options5:[{
-          value: '一般',
-          label: '一般'
-        },{
-          value: '很好',
-          label: '很好'
-        }],
+        
         dataRule: {
           recCommunicate: [
             { required: true, message: '沟通能力不能为空', trigger: 'blur' }
@@ -151,13 +171,14 @@
               params: this.$http.adornParams()
             }).then(({data}) => {
               if (data && data.code === 0) {
-                this.dataForm.intwResumeId = data.interview.intwResumeId
-                this.dataForm.intwName = data.interview.intwName
-                this.dataForm.intwMobile = data.interview.intwMobile
-                this.dataForm.intwBookTime = data.interview.intwBookTime
-                this.dataForm.intwHrId = data.interview.intwHrId
-                this.dataForm.intwState = data.interview.intwState
-                this.dataForm.intwTime = data.interview.intwTime
+                this.dataForm.intwResumeId = data.map.interview.intwResumeId
+                this.dataForm.intwName = data.map.interview.intwName
+                this.dataForm.intwMobile = data.map.interview.intwMobile
+                this.dataForm.intwBookTime = data.map.interview.intwBookTime
+                this.dataForm.intwHrId = data.map.interview.intwHrId
+                this.dataForm.intwState = data.map.interview.intwState
+                this.dataForm.intwTime = data.map.interview.intwTime
+                this.tableData = data.map.recList;
               }
             })          
         })

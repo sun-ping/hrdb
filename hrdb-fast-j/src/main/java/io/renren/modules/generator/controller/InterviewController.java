@@ -1,8 +1,6 @@
 package io.renren.modules.generator.controller;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.modules.generator.entity.RecordEntity;
@@ -59,9 +57,12 @@ public class InterviewController extends AbstractController {
     @RequestMapping("/info/{intwId}")
     @RequiresPermissions("generator:interview:info")
     public R info(@PathVariable("intwId") Long intwId){
+        Map<String,Object> map = new HashMap<>();
 		InterviewEntity interview = interviewService.getById(intwId);
-
-        return R.ok().put("interview", interview);
+        List<RecordEntity> recList = recordService.getByrecRId(Integer.parseInt(interview.getIntwResumeId().toString()));
+        map.put("interview",interview);
+        map.put("recList",recList);
+        return R.ok().put("map", map);
     }
 
     /**
