@@ -1,8 +1,11 @@
 package io.renren.modules.generator.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.renren.modules.generator.entity.OccupationEntity;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -86,5 +89,34 @@ public class CategoryController {
 
         return R.ok();
     }
+
+//    @RequestMapping("/getTree")
+//
+//    public R getTree(){
+//        List<CategoryEntity> root = categoryService.list(new QueryWrapper<CategoryEntity>().eq("cat_parent_id",0));
+//
+//        return R.ok().put("list",root);
+//    }
+
+//    public List<CategoryEntity> buildTree(List<CategoryEntity> root) {
+//        for (CategoryEntity categoryEntity : root){
+//            List<CategoryEntity> sons = categoryService.list(new QueryWrapper<CategoryEntity>().eq("cat_parent_id",categoryEntity.getCatId()));
+//            buildTree(sons);
+//            categoryEntity.setChildren(sons);
+//
+//        }
+//        return root;
+//
+//    }
+
+
+    @RequestMapping("/getTree")
+    public R getTree(@RequestParam Map<String, Object> params){
+        //PageUtils page = occupationService.queryPage(params);
+        List<CategoryEntity> list = categoryService.list();
+
+        return R.ok().put("list", list);
+    }
+
 
 }

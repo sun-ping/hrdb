@@ -1,9 +1,15 @@
 package io.renren.modules.generator.controller;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 
+
+import com.google.gson.JsonArray;
+import io.renren.modules.generator.entity.ShareEntity;
+import io.renren.modules.generator.service.ShareService;
+import io.renren.modules.generator.service.impl.ShareServiceImpl;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +22,9 @@ import io.renren.modules.generator.service.FriendsService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 
+import javax.annotation.Resource;
+
+import static io.renren.common.utils.ShiroUtils.getUserId;
 
 
 /**
@@ -30,6 +39,9 @@ import io.renren.common.utils.R;
 public class FriendsController {
     @Autowired
     private FriendsService friendsService;
+
+    @Resource
+    private ShareService shareService;
 
     /**
      * 列表
@@ -61,6 +73,30 @@ public class FriendsController {
     @RequiresPermissions("generator:friends:save")
     public R save(@RequestBody FriendsEntity friends){
 		friendsService.save(friends);
+
+        return R.ok();
+    }
+    
+    @RequestMapping("/save2")
+    public R save2(@RequestParam("reciverId")String recieverId,@RequestParam("resIdList") String resIdList){
+        //获取从页面传递过来的recieverId 和 求职者的ID
+
+        ShareEntity shareEntity = new ShareEntity();
+        shareEntity.setShaRecevier(Long.parseLong(recieverId));
+        shareEntity.setShaTime(new Date());
+        shareEntity.setShaSender(getUserId());
+
+        JSONArray array = new JSONArray(resIdList);
+        List<String> resIds = new ArrayList<>();
+        for (int i = 0; i < array.length(); i++) {
+            resIds.add(array.getString(i));
+        }
+        for (String resId : resIds) {
+            shareEntity.setShaReId(Long.parseLong(resId));
+            shareService.save(shareEntity);
+        }
+        //获取登录人的id，就是分享者
+        //通过save方法想数据库中插入数据（插入多条）
 
         return R.ok();
     }

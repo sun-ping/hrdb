@@ -1,8 +1,10 @@
 package io.renren.modules.generator.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import io.renren.modules.generator.entity.CategoryEntity;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -86,5 +88,8 @@ public class RecordController {
 
         return R.ok();
     }
+
+
+
 
 }

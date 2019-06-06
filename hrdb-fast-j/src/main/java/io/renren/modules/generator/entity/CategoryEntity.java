@@ -1,10 +1,13 @@
 package io.renren.modules.generator.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -40,5 +43,72 @@ public class CategoryEntity implements Serializable {
 	 * 备注2
 	 */
 	private Long catBz2;
+
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public Long getCatId() {
+		return catId;
+	}
+
+	public void setCatId(Long catId) {
+		this.catId = catId;
+	}
+
+	public Long getCatParentId() {
+		return catParentId;
+	}
+
+	public void setCatParentId(Long catParentId) {
+		this.catParentId = catParentId;
+	}
+
+	public String getCatName() {
+		return catName;
+	}
+
+	public void setCatName(String catName) {
+		this.catName = catName;
+	}
+
+	public String getCatBz1() {
+		return catBz1;
+	}
+
+	public void setCatBz1(String catBz1) {
+		this.catBz1 = catBz1;
+	}
+
+	public Long getCatBz2() {
+		return catBz2;
+	}
+
+	public void setCatBz2(Long catBz2) {
+		this.catBz2 = catBz2;
+	}
+
+	public List<CategoryEntity> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<CategoryEntity> children) {
+		this.children = children;
+	}
+
+	public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
+
+	@TableField(exist = false)
+	private List<CategoryEntity> children;
+
+	@TableField(exist = false)
+	private String parentName;
 
 }

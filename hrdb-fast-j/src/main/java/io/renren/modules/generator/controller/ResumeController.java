@@ -1,8 +1,10 @@
 package io.renren.modules.generator.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import io.renren.modules.generator.entity.RecordEntity;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -86,5 +88,17 @@ public class ResumeController {
 
         return R.ok();
     }
+
+
+    @RequestMapping("/resId")
+    public R resId(@RequestParam Map<String, Object> params){
+        //System.out.println("liujing");
+        //PageUtils page = occupationService.queryPage(params);
+        List<ResumeEntity> list = resumeService.list();
+
+        return R.ok().put("list", list);
+    }
+
+
 
 }

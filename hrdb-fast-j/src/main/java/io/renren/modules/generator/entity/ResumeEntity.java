@@ -84,6 +84,7 @@ public class ResumeEntity implements Serializable {
 	 * 手机号码
 	 */
 	private String resMobile;
+
 	/**
 	 * 邮箱
 	 */

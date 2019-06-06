@@ -65,4 +65,96 @@ public class RecordEntity implements Serializable {
 	 */
 	private Long recBz2;
 
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public Long getRecId() {
+		return recId;
+	}
+
+	public void setRecId(Long recId) {
+		this.recId = recId;
+	}
+
+	public Long getRecRId() {
+		return recRId;
+	}
+
+	public void setRecRId(Long recRId) {
+		this.recRId = recRId;
+	}
+
+	public Long getRecHrId() {
+		return recHrId;
+	}
+
+	public void setRecHrId(Long recHrId) {
+		this.recHrId = recHrId;
+	}
+
+	public Long getRecCommunicate() {
+		return recCommunicate;
+	}
+
+	public void setRecCommunicate(Long recCommunicate) {
+		this.recCommunicate = recCommunicate;
+	}
+
+	public Long getRecSkill() {
+		return recSkill;
+	}
+
+	public void setRecSkill(Long recSkill) {
+		this.recSkill = recSkill;
+	}
+
+	public String getRecStudy() {
+		return recStudy;
+	}
+
+	public void setRecStudy(String recStudy) {
+		this.recStudy = recStudy;
+	}
+
+	public String getRecEq() {
+		return recEq;
+	}
+
+	public void setRecEq(String recEq) {
+		this.recEq = recEq;
+	}
+
+	public String getRecImpression() {
+		return recImpression;
+	}
+
+	public void setRecImpression(String recImpression) {
+		this.recImpression = recImpression;
+	}
+
+	public Date getRecTime() {
+		return recTime;
+	}
+
+	public void setRecTime(Date recTime) {
+		this.recTime = recTime;
+	}
+
+	public String getRecBz1() {
+		return recBz1;
+	}
+
+	public void setRecBz1(String recBz1) {
+		this.recBz1 = recBz1;
+	}
+
+	public Long getRecBz2() {
+		return recBz2;
+	}
+
+	public void setRecBz2(Long recBz2) {
+		this.recBz2 = recBz2;
+	}
 }
