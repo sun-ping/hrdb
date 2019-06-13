@@ -5,7 +5,11 @@ spring:
             driver-class-name: com.mysql.jdbc.Driver
             url: jdbc:mysql://localhost:3306/hrdb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
             username: root
+<<<<<<< HEAD
             password: 123
+=======
+            password: 123456
+>>>>>>> 960b728f71b0e50e69345b39e9018a53a40b90a5
             initial-size: 10
             max-active: 100
             min-idle: 10

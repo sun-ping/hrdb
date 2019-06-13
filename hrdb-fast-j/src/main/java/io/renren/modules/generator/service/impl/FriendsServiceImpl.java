@@ -24,6 +24,10 @@ public class FriendsServiceImpl extends ServiceImpl<FriendsDao, FriendsEntity> i
                  * 传递登录ID只会显示有关的列表  徐夫立
                  */
                 new QueryWrapper<FriendsEntity>().or().eq("fri_receiver", id).or().eq("fri_sender", id)
+    public PageUtils queryPage(Map<String, Object> params) {
+        IPage<FriendsEntity> page = this.page(
+                new Query<FriendsEntity>().getPage(params),
+                new QueryWrapper<FriendsEntity>()
         );
 
         return new PageUtils(page);
