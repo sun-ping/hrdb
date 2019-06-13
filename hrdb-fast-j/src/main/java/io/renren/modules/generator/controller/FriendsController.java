@@ -150,7 +150,7 @@ public class FriendsController {
         return R.ok();
     }
     /**
-     * 拒绝验证消息  徐夫立
+     * 拒绝验证消息  徐夫立作者
      */
     @RequestMapping("refuse")
     public R refuse(String id,String t) {
