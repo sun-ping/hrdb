@@ -15,6 +15,6 @@ import java.util.Map;
  */
 public interface FriendsService extends IService<FriendsEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
+    PageUtils queryPage(Map<String, Object> params,Long fri_sender);
 }
 

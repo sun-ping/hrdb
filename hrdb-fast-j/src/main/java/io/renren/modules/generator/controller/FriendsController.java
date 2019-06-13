@@ -1,5 +1,6 @@
 package io.renren.modules.generator.controller;
 
+
 import java.util.*;
 
 
@@ -7,6 +8,19 @@ import com.google.gson.JsonArray;
 import io.renren.modules.generator.entity.ShareEntity;
 import io.renren.modules.generator.service.ShareService;
 import io.renren.modules.generator.service.impl.ShareServiceImpl;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.renren.modules.sys.controller.AbstractController;
+import io.renren.modules.sys.entity.SysUserEntity;
+import io.renren.modules.sys.service.SysUserService;
+
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 import org.json.JSONArray;
@@ -36,20 +50,26 @@ import static io.renren.common.utils.ShiroUtils.getUserId;
  */
 @RestController
 @RequestMapping("generator/friends")
-public class FriendsController {
+public class FriendsController extends AbstractController {
     @Autowired
     private FriendsService friendsService;
 
+
     @Resource
     private ShareService shareService;
+
+    @Autowired
+    private SysUserService sysUserService;
+
 
     /**
      * 列表
      */
     @RequestMapping("/list")
     @RequiresPermissions("generator:friends:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = friendsService.queryPage(params);
+    public R list(@RequestParam Map<String, Object> params) {
+        Long id=getUserId();
+        PageUtils page = friendsService.queryPage(params,id);
 
         return R.ok().put("page", page);
     }
@@ -60,8 +80,8 @@ public class FriendsController {
      */
     @RequestMapping("/info/{friId}")
     @RequiresPermissions("generator:friends:info")
-    public R info(@PathVariable("friId") Long friId){
-		FriendsEntity friends = friendsService.getById(friId);
+    public R info(@PathVariable("friId") Long friId) {
+        FriendsEntity friends = friendsService.getById(friId);
 
         return R.ok().put("friends", friends);
     }
@@ -71,8 +91,8 @@ public class FriendsController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("generator:friends:save")
-    public R save(@RequestBody FriendsEntity friends){
-		friendsService.save(friends);
+    public R save(@RequestBody FriendsEntity friends) {
+        friendsService.save(friends);
 
         return R.ok();
     }
@@ -106,8 +126,8 @@ public class FriendsController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("generator:friends:update")
-    public R update(@RequestBody FriendsEntity friends){
-		friendsService.updateById(friends);
+    public R update(@RequestBody FriendsEntity friends) {
+        friendsService.updateById(friends);
 
         return R.ok();
     }
@@ -117,10 +137,73 @@ public class FriendsController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("generator:friends:delete")
-    public R delete(@RequestBody Long[] friIds){
-		friendsService.removeByIds(Arrays.asList(friIds));
+    public R delete(@RequestBody Long[] friIds) {
+        friendsService.removeByIds(Arrays.asList(friIds));
 
         return R.ok();
     }
 
+    @RequestMapping("getInformation")
+    public R getInformation(@RequestParam String keywords) {
+        System.out.println(keywords);
+        List<SysUserEntity> list = sysUserService.list(new QueryWrapper<SysUserEntity>().eq("mobile", keywords));
+        System.out.println(list);
+        return R.ok().put("user", list.get(0));
+    }
+
+
+    @RequestMapping("add")
+    public R add(String mobile, String msg) {
+        System.out.println(mobile);
+        System.out.println(msg);
+        List<SysUserEntity> list =  sysUserService.list(new QueryWrapper<SysUserEntity>().eq("mobile",mobile));
+        //System.out.println(list);
+        Long fri_receiver=list.get(0).getUserId();
+        Long fri_sender=getUserId();
+        Long fri_state = (long) 1;
+        String fri_msg=msg;
+        Date day=new Date();
+        FriendsEntity friend=new FriendsEntity();
+        friend.setFriReceiver(fri_receiver);
+        friend.setFriSender(fri_sender);
+        friend.setFriState(fri_state);
+        friend.setFriMsg(fri_msg);
+        friend.setFriTime(day);
+        friendsService.save(friend);
+        return R.ok();
+
+    }
+
+    @RequestMapping("pass")
+    public R pass(String id,String t) {
+        List<FriendsEntity> list = friendsService.list(new QueryWrapper<FriendsEntity>().eq("fri_id", id));
+        FriendsEntity fri=list.get(0);
+        Long friSender = fri.getFriSender();
+        Long fid=getUserId();
+        if(friSender!=fid) {
+            FriendsEntity friend = new FriendsEntity();
+            Long fri_state = (long) 2;
+            friend.setFriState(fri_state);
+            friend.setFriId(Long.parseLong(id));
+            friendsService.updateById(friend);
+
+        }
+        return R.ok();
+    }
+    @RequestMapping("refuse")
+    public R refuse(String id,String t) {
+        List<FriendsEntity> list = friendsService.list(new QueryWrapper<FriendsEntity>().eq("fri_id", id));
+        FriendsEntity fri=list.get(0);
+        Long friSender = fri.getFriSender();
+        Long fid=getUserId();
+        if(friSender!=fid) {
+            FriendsEntity friend = new FriendsEntity();
+            Long fri_state = (long) 3;
+            friend.setFriState(fri_state);
+            friend.setFriId(Long.parseLong(id));
+            friendsService.updateById(friend);
+
+        }
+        return R.ok();
+    }
 }
