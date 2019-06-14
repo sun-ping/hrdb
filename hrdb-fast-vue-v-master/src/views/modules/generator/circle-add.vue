@@ -30,8 +30,9 @@
     </el-input>
     
     
+
     <el-button @click="add(textarea,telephone,user_id,frisender)" >添加</el-button> 
-    
+
     
     </el-dialog>
     
@@ -41,11 +42,13 @@
 export default {
     data (){
         return{
+
             user_id:'',
             name:'xufuli',
             telephone:'15527892357',
             textarea:'',
             
+
             frisender:'',
             visible: false,
             show:false,
@@ -78,6 +81,7 @@ export default {
             this.telephone=data.user.mobile,
             this.user_id=data.user.user_id,
             console.log(user_id)
+            this.telephone=data.user.mobile;
             // this.totalPage = data.page.totalCount
           } else {
             this.name = '',

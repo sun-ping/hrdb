@@ -1,6 +1,8 @@
 package io.renren.modules.generator.controller;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.modules.generator.entity.RecordEntity;
@@ -57,12 +59,9 @@ public class InterviewController extends AbstractController {
     @RequestMapping("/info/{intwId}")
     @RequiresPermissions("generator:interview:info")
     public R info(@PathVariable("intwId") Long intwId){
-        Map<String,Object> map = new HashMap<>();
-		InterviewEntity interview = interviewService.getById(intwId);
-        List<RecordEntity> recList = recordService.getByrecRId(Integer.parseInt(interview.getIntwResumeId().toString()));
-        map.put("interview",interview);
-        map.put("recList",recList);
-        return R.ok().put("map", map);
+        InterviewEntity interview = interviewService.getById(intwId);
+
+        return R.ok().put("interview", interview);
     }
 
     /**
@@ -82,7 +81,7 @@ public class InterviewController extends AbstractController {
     @RequestMapping("/update")
     @RequiresPermissions("generator:interview:update")
     public R update(@RequestBody InterviewEntity interview){
-		interviewService.updateById(interview);
+        interviewService.updateById(interview);
 
         return R.ok();
     }
@@ -93,7 +92,7 @@ public class InterviewController extends AbstractController {
     @RequestMapping("/delete")
     @RequiresPermissions("generator:interview:delete")
     public R delete(@RequestBody Long[] intwIds){
-		interviewService.removeByIds(Arrays.asList(intwIds));
+        interviewService.removeByIds(Arrays.asList(intwIds));
 
         return R.ok();
     }
@@ -138,7 +137,7 @@ public class InterviewController extends AbstractController {
         InterviewEntity interviewEntity = interviewService.getById(recordEntity.getIntwId());
         // 修改状态为 已面试
         interviewEntity.setIntwState(Long.parseLong(Integer.toString(1)));
-        // 修改操作时间
+        // 修改
         interviewEntity.setIntwTime(new Date());
         interviewService.updateById(interviewEntity);
         recordEntity.setRecHrId(getUserId());
