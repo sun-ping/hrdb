@@ -50,4 +50,5 @@ public class AppTestController {
         return R.ok().put("msg", "无需token也能访问。。。");
     }
 
+
 }

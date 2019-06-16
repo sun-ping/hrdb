@@ -1,14 +1,29 @@
 package io.renren.modules.generator.controller;
 
+
+import java.util.*;
+
+
+import com.google.gson.JsonArray;
+import io.renren.modules.generator.entity.ShareEntity;
+import io.renren.modules.generator.service.ShareService;
+import io.renren.modules.generator.service.impl.ShareServiceImpl;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.renren.modules.sys.controller.AbstractController;
 import io.renren.modules.sys.entity.SysUserEntity;
 import io.renren.modules.sys.service.SysUserService;
+
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +35,8 @@ import io.renren.modules.generator.entity.FriendsEntity;
 import io.renren.modules.generator.service.FriendsService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
+
+import javax.annotation.Resource;
 
 import static io.renren.common.utils.ShiroUtils.getUserId;
 
@@ -33,18 +50,24 @@ import static io.renren.common.utils.ShiroUtils.getUserId;
  */
 @RestController
 @RequestMapping("generator/friends")
-public class FriendsController {
+public class FriendsController extends AbstractController {
     @Autowired
     private FriendsService friendsService;
 
+
+    @Resource
+    private ShareService shareService;
+
     @Autowired
     private SysUserService sysUserService;
+
+
     /**
-     * 列表   徐夫立
+     * 列表
      */
     @RequestMapping("/list")
     @RequiresPermissions("generator:friends:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         Long id=getUserId();
         PageUtils page = friendsService.queryPage(params,id);
 
@@ -57,7 +80,7 @@ public class FriendsController {
      */
     @RequestMapping("/info/{friId}")
     @RequiresPermissions("generator:friends:info")
-    public R info(@PathVariable("friId") Long friId){
+    public R info(@PathVariable("friId") Long friId) {
         FriendsEntity friends = friendsService.getById(friId);
 
         return R.ok().put("friends", friends);
@@ -68,8 +91,32 @@ public class FriendsController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("generator:friends:save")
-    public R save(@RequestBody FriendsEntity friends){
+    public R save(@RequestBody FriendsEntity friends) {
         friendsService.save(friends);
+
+        return R.ok();
+    }
+    
+    @RequestMapping("/save2")
+    public R save2(@RequestParam("reciverId")String recieverId,@RequestParam("resIdList") String resIdList){
+        //获取从页面传递过来的recieverId 和 求职者的ID
+
+        ShareEntity shareEntity = new ShareEntity();
+        shareEntity.setShaRecevier(Long.parseLong(recieverId));
+        shareEntity.setShaTime(new Date());
+        shareEntity.setShaSender(getUserId());
+
+        JSONArray array = new JSONArray(resIdList);
+        List<String> resIds = new ArrayList<>();
+        for (int i = 0; i < array.length(); i++) {
+            resIds.add(array.getString(i));
+        }
+        for (String resId : resIds) {
+            shareEntity.setShaReId(Long.parseLong(resId));
+            shareService.save(shareEntity);
+        }
+        //获取登录人的id，就是分享者
+        //通过save方法想数据库中插入数据（插入多条）
 
         return R.ok();
     }
@@ -79,7 +126,7 @@ public class FriendsController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("generator:friends:update")
-    public R update(@RequestBody FriendsEntity friends){
+    public R update(@RequestBody FriendsEntity friends) {
         friendsService.updateById(friends);
 
         return R.ok();
@@ -90,14 +137,12 @@ public class FriendsController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("generator:friends:delete")
-    public R delete(@RequestBody Long[] friIds){
+    public R delete(@RequestBody Long[] friIds) {
         friendsService.removeByIds(Arrays.asList(friIds));
 
         return R.ok();
     }
-    /**
-     * 回显得到用户的电话和姓名  徐夫立
-     */
+
     @RequestMapping("getInformation")
     public R getInformation(@RequestParam String keywords) {
         System.out.println(keywords);
@@ -106,9 +151,7 @@ public class FriendsController {
         return R.ok().put("user", list.get(0));
     }
 
-    /**
-     * 发送验证信息让他人添加你为朋友  徐夫立
-     */
+
     @RequestMapping("add")
     public R add(String mobile, String msg) {
         System.out.println(mobile);
@@ -130,9 +173,7 @@ public class FriendsController {
         return R.ok();
 
     }
-    /**
-     * 通过验证消息  徐夫立
-     */
+
     @RequestMapping("pass")
     public R pass(String id,String t) {
         List<FriendsEntity> list = friendsService.list(new QueryWrapper<FriendsEntity>().eq("fri_id", id));
@@ -149,9 +190,6 @@ public class FriendsController {
         }
         return R.ok();
     }
-    /**
-     * 拒绝验证消息  徐夫立
-     */
     @RequestMapping("refuse")
     public R refuse(String id,String t) {
         List<FriendsEntity> list = friendsService.list(new QueryWrapper<FriendsEntity>().eq("fri_id", id));

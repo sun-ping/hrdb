@@ -25,6 +25,12 @@
        >
     </el-input>
     <el-button @click="add(textarea,telephone,user_id,frisender)" >添加</el-button> 
+    
+    
+
+    <el-button @click="add(textarea,telephone,user_id,frisender)" >添加</el-button> 
+
+    
     </el-dialog>
     </div>
 </template>
@@ -32,11 +38,13 @@
 export default {
     data (){
         return{
+
             user_id:'',
             name:'xufuli',
             telephone:'15527892357',
             textarea:'',
             
+
             frisender:'',
             visible: false,
             show:false,
@@ -70,6 +78,9 @@ export default {
             this.name = data.user.username,
             this.telephone=data.user.mobile,
             console.log(user_id+"dengluid")
+            this.user_id=data.user.user_id,
+            console.log(user_id)
+            this.telephone=data.user.mobile;
             // this.totalPage = data.page.totalCount
           } else {
             this.name = '',
@@ -82,6 +93,11 @@ export default {
        
         add (f1,f2,f3,f4){      
         console.log(f3+"-----uid--"),
+        add (f1,f2,f3,f4){
+          
+        console.log(f1),
+        console.log(f2),
+        console.log(f3+"-------"),
         console.log(f4),
 
         this.$http({
@@ -98,6 +114,3 @@ export default {
     }
 }
 </script>
-
-
-

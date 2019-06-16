@@ -105,6 +105,8 @@
 <script>
   import AddOrUpdate from './resume-add-or-update'
   import ResData from './resData'
+  import Vue from 'vue'
+import { log } from 'util';
   export default {
     data () {
       return {
@@ -174,7 +176,7 @@
       },
       // 对resTime进行排序
       changeDate(){
-          this.dataList.sort((a,b)=>{
+        this.dataList.sort((a,b)=>{
           let aTimeString = a.resTime;
           let bTimeString = b.resTime;
           aTimeString = aTimeString.replace(/-/g,'/');
@@ -216,10 +218,12 @@
       //查询solr数据
       getSolrData (val){
         this.dataListLoading = true;
-        console.log(val);
-        if(val){
+        //console.log(val);
+         if(val){
           val = '*';
         }
+        console.log("aaaaa");
+        console.log("val="+val);
         this.$http({
           url: this.$http.adornUrl('/generator/resume/getSolrData'),
           method: 'get',
