@@ -57,6 +57,21 @@ public class RecordController {
     }
 
     /**
+     * 面试预约信息
+     */
+    @RequestMapping("/listRecord/{recRId}")
+    @RequiresPermissions("generator:record:listRecord")
+    public R listRecord(@PathVariable("recRId") int recRId){
+        System.out.println("面试预约recRId为"+recRId);
+        System.out.println("recRId="+recRId);
+        List<RecordEntity> page = recordService.getByrecRId(recRId);
+
+        return R.ok().put("page", page);
+    }
+
+
+
+    /**
      * 保存
      */
     @RequestMapping("/save")

@@ -58,6 +58,7 @@ export default {
            
         }
     },
+
     methods:{
         init (id) {
         this.frisender=id;
@@ -65,7 +66,8 @@ export default {
      },
         getInformation (val){
        // this.dataListLoading = true;
-        console.log(val);
+        console.log(val+"info");
+        
        
         this.$http({
           url: this.$http.adornUrl('/generator/friends/getInformation'),
@@ -79,9 +81,8 @@ export default {
           if (data && data.code === 0) {
             this.name = data.user.username,
             this.telephone=data.user.mobile,
-            this.user_id=data.user.user_id,
-            console.log(user_id)
-            this.telephone=data.user.mobile;
+            this.user_id=data.user.userId;
+            console.log(user_id+"dengluid")
             // this.totalPage = data.page.totalCount
           } else {
             this.name = '',
@@ -89,15 +90,15 @@ export default {
 
             // this.totalPage = 0
           }
+          
         //  this.dataListLoading = false
         })
       },
        
         add (f1,f2,f3,f4){
           
-        console.log(f1),
-        console.log(f2),
-        console.log(f3+"-------"),
+       
+        console.log(f3+"-----uid--"),
         console.log(f4),
 
         this.$http({
