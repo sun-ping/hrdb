@@ -148,6 +148,7 @@ public class FriendsController extends AbstractController {
         System.out.println(keywords);
         List<SysUserEntity> list = sysUserService.list(new QueryWrapper<SysUserEntity>().eq("mobile", keywords));
         System.out.println(list);
+        System.out.println(list.get(0).getUserId());
         return R.ok().put("user", list.get(0));
     }
 
