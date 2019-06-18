@@ -140,24 +140,25 @@ public class FriendsController extends AbstractController {
     public R delete(@RequestBody Long[] friIds) {
         friendsService.removeByIds(Arrays.asList(friIds));
 
-        return R.ok();
+        return R .ok();
     }
 
     @RequestMapping("getInformation")
     public R getInformation(@RequestParam String keywords) {
-        System.out.println(keywords);
+        //System.out.println(keywords);
         List<SysUserEntity> list = sysUserService.list(new QueryWrapper<SysUserEntity>().eq("mobile", keywords));
-        System.out.println(list);
-        System.out.println(list.get(0).getUserId());
+        //System.out.println(list);
+       // System.out.println(list.get(0).getUserId());
         return R.ok().put("user", list.get(0));
     }
 
 
     @RequestMapping("add")
-    public R add(String mobile, String msg) {
+    public R add(String mobile, String msg,String keywords) {
         System.out.println(mobile);
         System.out.println(msg);
         List<SysUserEntity> list =  sysUserService.list(new QueryWrapper<SysUserEntity>().eq("mobile",mobile));
+
         //System.out.println(list);
         Long fri_receiver=list.get(0).getUserId();
         Long fri_sender=getUserId();
@@ -170,8 +171,15 @@ public class FriendsController extends AbstractController {
         friend.setFriState(fri_state);
         friend.setFriMsg(fri_msg);
         friend.setFriTime(day);
-        friendsService.save(friend);
-        return R.ok();
+
+        List<FriendsEntity> list1 = friendsService.list(new QueryWrapper<FriendsEntity>().or(obj1 -> obj1.eq("fri_sender", fri_receiver).eq("fri_receiver", fri_sender)).or(obj1 -> obj1.eq("fri_sender", fri_sender).eq("fri_receiver", fri_receiver)));
+        if(list1.size()==0) {
+            friendsService.save(friend);
+            return  R.ok().put("result",0);
+        }else{
+            return  R.ok().put("result", 1);
+        }
+
 
     }
 
