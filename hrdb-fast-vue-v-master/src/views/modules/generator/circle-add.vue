@@ -31,7 +31,7 @@
     
     
 
-    <el-button @click="add(textarea,telephone,user_id,frisender)" >添加</el-button> 
+    <el-button @click="add(textarea,telephone)" >添加</el-button> 
 
     
     </el-dialog>
@@ -39,17 +39,18 @@
     </div>
 </template>
 <script>
+import { connect } from 'net';
+import { constants } from 'fs';
 export default {
     data (){
         return{
 
-            user_id:'',
+            //user_id:'',
+            keywords:'',
             name:'xufuli',
             telephone:'15527892357',
             textarea:'',
-            
-
-            frisender:'',
+            //frisenderlist:[],
             visible: false,
             show:false,
             dataForm:{
@@ -60,8 +61,7 @@ export default {
     },
 
     methods:{
-        init (id) {
-        this.frisender=id;
+        init () {
         this.visible = true
      },
         getInformation (val){
@@ -80,9 +80,9 @@ export default {
         }).then(({data}) => {
           if (data && data.code === 0) {
             this.name = data.user.username,
-            this.telephone=data.user.mobile,
-            this.user_id=data.user.userId;
-            console.log(user_id+"dengluid")
+            this.telephone=data.user.mobile
+            //this.user_id=data.user.userId;
+            //console.log(user_id+"dengluid")
             // this.totalPage = data.page.totalCount
           } else {
             this.name = '',
@@ -95,22 +95,36 @@ export default {
         })
       },
        
-        add (f1,f2,f3,f4){
+        add (f1,f2,f3){
           
        
         console.log(f3+"-----uid--"),
-        console.log(f4),
-
-        this.$http({
-          url: this.$http.adornUrl('/generator/friends/add'),
-          method: 'get',
-          params: this.$http.adornParams({
+       
+           this.$http({
+           url: this.$http.adornUrl('/generator/friends/add'),
+           method: 'get',   
+           params: this.$http.adornParams({
             // 'page': this.pageIndex,
             // 'limit': this.pageSize,
-            'mobile':f2,
-            'msg':f1,
-          })
+                 'mobile':f2,
+                 'msg':f1,
+                 })
+          }).then(({data}) => {
+          if (data && data.code === 0) {
+            this.result = data.result , 
+            console.log(this.result)     
+          } 
+          if(this.result===1){
+          this.$message('已经添加过');
+          console.log("111111")
+          }else{
+          this.$message('添加成功');
+          }
+        //  this.dataListLoading = false
         })
+        
+        
+        
       }
     }
 }
