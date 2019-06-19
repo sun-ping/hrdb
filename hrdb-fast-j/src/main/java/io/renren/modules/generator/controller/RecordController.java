@@ -1,6 +1,7 @@
 package io.renren.modules.generator.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import io.renren.modules.generator.service.RecordService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 
+import static io.renren.common.utils.ShiroUtils.getUserId;
 
 
 /**
@@ -51,7 +53,7 @@ public class RecordController {
     @RequestMapping("/info/{recId}")
     @RequiresPermissions("generator:record:info")
     public R info(@PathVariable("recId") Long recId){
-		RecordEntity record = recordService.getById(recId);
+        RecordEntity record = recordService.getById(recId);
 
         return R.ok().put("record", record);
     }
@@ -62,8 +64,6 @@ public class RecordController {
     @RequestMapping("/listRecord/{recRId}")
     @RequiresPermissions("generator:record:listRecord")
     public R listRecord(@PathVariable("recRId") int recRId){
-        System.out.println("面试预约recRId为"+recRId);
-        System.out.println("recRId="+recRId);
         List<RecordEntity> page = recordService.getByrecRId(recRId);
 
         return R.ok().put("page", page);
@@ -74,13 +74,19 @@ public class RecordController {
     /**
      * 保存
      */
+
     @RequestMapping("/save")
     @RequiresPermissions("generator:record:save")
-    public R save(@RequestBody RecordEntity record){
-		recordService.save(record);
-
+    public R save(RecordEntity record){
+        System.out.println("hehhhhh");
+        System.out.println("record="+record.getRecRId());
+        System.out.println("record="+record.getRecImpression());
+        record.setRecHrId(getUserId());
+        record.setRecTime(new Date());;
+       recordService.save(record);
         return R.ok();
     }
+
 
     /**
      * 修改
@@ -88,7 +94,7 @@ public class RecordController {
     @RequestMapping("/update")
     @RequiresPermissions("generator:record:update")
     public R update(@RequestBody RecordEntity record){
-		recordService.updateById(record);
+        recordService.updateById(record);
 
         return R.ok();
     }
@@ -99,7 +105,7 @@ public class RecordController {
     @RequestMapping("/delete")
     @RequiresPermissions("generator:record:delete")
     public R delete(@RequestBody Long[] recIds){
-		recordService.removeByIds(Arrays.asList(recIds));
+        recordService.removeByIds(Arrays.asList(recIds));
 
         return R.ok();
     }
