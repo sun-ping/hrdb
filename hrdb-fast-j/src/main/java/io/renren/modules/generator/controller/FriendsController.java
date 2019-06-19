@@ -71,11 +71,13 @@ public class FriendsController extends AbstractController {
         Long id=getUserId();
         int result=2;
         PageUtils page = friendsService.queryPage(params,id);
+        //asdasd
         //xxx
+        //asdasd
         List<FriendsEntity> list = (List<FriendsEntity>)page.getList();
-        System.out.println(list);
+        System.out.println(list);//asdasd
         for (FriendsEntity i : list) {
-            if(i.getFriSender()==id){
+            if(i.getFriSender()==id){//asdasddsfsdf
                  result=1;
             }else{
                  result=0;
