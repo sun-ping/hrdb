@@ -71,8 +71,7 @@ public class FriendsController extends AbstractController {
         Long id=getUserId();
         int result=2;
         PageUtils page = friendsService.queryPage(params,id);
-        //xxxxxxxxxxxxxxxxxxx
-        //xxxxxxxxxxxxxxxxxxx
+        //xxx
         List<FriendsEntity> list = (List<FriendsEntity>)page.getList();
         System.out.println(list);
         for (FriendsEntity i : list) {
