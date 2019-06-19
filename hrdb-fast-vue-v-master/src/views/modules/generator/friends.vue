@@ -213,7 +213,20 @@
             'id':id,
         
           })
-        })
+        }).then(({data}) => {
+            if (data && data.code === 0) {
+              this.$message({
+                message: '操作成功',
+                type: 'success',
+                duration: 1500,
+                onClose: () => {
+                  this.getDataList()
+                }
+              })
+            } else {
+              this.$message.error(data.msg)
+            }
+          })
       },
       refuseHandle (id){
         console.log(id);
@@ -225,7 +238,20 @@
             'id':id,
             
           })
-        })
+        }).then(({data}) => {
+            if (data && data.code === 0) {
+              this.$message({
+                message: '操作成功',
+                type: 'success',
+                duration: 1500,
+                onClose: () => {
+                  this.getDataList()
+                }
+              })
+            } else {
+              this.$message.error(data.msg)
+            }
+          })
       },
       ifendcase(val){
         if(val.friState== '1'){

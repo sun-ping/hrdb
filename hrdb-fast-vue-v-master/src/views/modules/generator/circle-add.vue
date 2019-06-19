@@ -108,14 +108,18 @@ export default {
           }).then(({data}) => {
           if (data && data.code === 0) {
             this.result = data.result , 
-            console.log(this.result)     
-          } 
-          if(this.result===1){
-          this.$message('已经添加过');
-          console.log("111111")
-          }else{
-          this.$message('添加成功');
-          }
+            console.log(this.result)    
+            this.visible = false,
+            this.$emit('refreshDataList')
+            }
+            if(this.result===1){
+            this.$message('已经添加过');
+            console.log("111111")
+            }else{
+             this.$message('添加成功');
+            }
+          
+          
         //  this.dataListLoading = false
         })
         
