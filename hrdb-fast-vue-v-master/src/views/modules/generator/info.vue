@@ -4,6 +4,9 @@
   :close-on-click-modal="false"
   :visible.sync="visible">
 <el-row>
+    <el-col :span="24"><div class="grid-content bg-purple">姓名:{{resName}}</div></el-col>
+</el-row>
+<el-row>
   <el-col :span="6"><div class="grid-content bg-purple">年龄:{{resAge}}</div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light">性别:{{resGender}}</div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple">婚姻:{{resMarriage}}</div></el-col>
@@ -163,7 +166,8 @@ export default {
           recImpression:''         
         },
         visible: false,
-          resId: 0,        
+          resId: 0,    
+          resName:'',    
           resAge: '',
           resGender: '',
           resMarriage: '',
@@ -283,6 +287,7 @@ export default {
               params: this.$http.adornParams()
             }).then(({data}) => {
               if (data && data.code === 0) {
+                this.resName = data.resume.resName               
                 this.resAge = data.resume.resAge
                 this.resGender = data.resume.resGender
                 this.resMarriage = data.resume.resMarriage
