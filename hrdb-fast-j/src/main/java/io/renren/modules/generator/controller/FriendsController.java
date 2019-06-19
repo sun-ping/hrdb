@@ -73,6 +73,9 @@ public class FriendsController extends AbstractController {
         PageUtils page = friendsService.queryPage(params,id);
         //asdasd
         //xx
+        //hjjjj
+        //kk
+
         List<FriendsEntity> list = (List<FriendsEntity>)page.getList();
         System.out.println(list);//asdasd
         for (FriendsEntity i : list) {
