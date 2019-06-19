@@ -74,6 +74,7 @@ public class FriendsController extends AbstractController {
         //asdasd
         //xxx
         //asdasd
+        //sadasd
         List<FriendsEntity> list = (List<FriendsEntity>)page.getList();
         System.out.println(list);//asdasd
         for (FriendsEntity i : list) {
