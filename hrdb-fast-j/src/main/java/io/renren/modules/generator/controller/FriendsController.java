@@ -69,9 +69,18 @@ public class FriendsController extends AbstractController {
     @RequiresPermissions("generator:friends:list")
     public R list(@RequestParam Map<String, Object> params) {
         Long id=getUserId();
+        int result=2;
         PageUtils page = friendsService.queryPage(params,id);
-
-        return R.ok().put("page", page);
+        List<FriendsEntity> list = (List<FriendsEntity>)page.getList();
+        System.out.println(list);
+        for (FriendsEntity i : list) {
+            if(i.getFriSender()==id){
+                 result=1;
+            }else{
+                 result=0;
+            }
+        }
+        return R.ok().put("page", page).put("result",result);
     }
 
 
@@ -154,7 +163,7 @@ public class FriendsController extends AbstractController {
 
 
     @RequestMapping("add")
-    public R add(String mobile, String msg,String keywords) {
+    public R add(String mobile, String msg) {
         System.out.println(mobile);
         System.out.println(msg);
         List<SysUserEntity> list =  sysUserService.list(new QueryWrapper<SysUserEntity>().eq("mobile",mobile));
@@ -184,7 +193,7 @@ public class FriendsController extends AbstractController {
     }
 
     @RequestMapping("pass")
-    public R pass(String id,String t) {
+    public R pass(String id) {
         List<FriendsEntity> list = friendsService.list(new QueryWrapper<FriendsEntity>().eq("fri_id", id));
         FriendsEntity fri=list.get(0);
         Long friSender = fri.getFriSender();
@@ -195,12 +204,15 @@ public class FriendsController extends AbstractController {
             friend.setFriState(fri_state);
             friend.setFriId(Long.parseLong(id));
             friendsService.updateById(friend);
+            return R.ok();
 
+        }else{
+            return  R.ok();
         }
-        return R.ok();
+
     }
     @RequestMapping("refuse")
-    public R refuse(String id,String t) {
+    public R refuse(String id) {
         List<FriendsEntity> list = friendsService.list(new QueryWrapper<FriendsEntity>().eq("fri_id", id));
         FriendsEntity fri=list.get(0);
         Long friSender = fri.getFriSender();
@@ -211,8 +223,9 @@ public class FriendsController extends AbstractController {
             friend.setFriState(fri_state);
             friend.setFriId(Long.parseLong(id));
             friendsService.updateById(friend);
-
+            return R.ok();
+        } else{
+            return  R.ok();
         }
-        return R.ok();
     }
 }

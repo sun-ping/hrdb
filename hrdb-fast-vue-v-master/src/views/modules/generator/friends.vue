@@ -71,8 +71,8 @@
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.friId)">修改</el-button>
           <el-button type="text" size="small" @click="deleteHandle(scope.row.friId)">删除</el-button>
-          <el-button type="text" size="small" @click="passHandle(scope.row.friId)">通过</el-button>
-          <el-button type="text" size="small" @click="refuseHandle(scope.row.friId)">拒绝</el-button>
+          <el-button v-show="result == 0" type="text" size="small" @click="passHandle(scope.row.friId)" >通过</el-button>
+          <el-button v-show="result == 0" type="text" size="small" @click="refuseHandle(scope.row.friId)">拒绝</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -101,6 +101,7 @@
           key: ''
         },
         dataList: [],
+        result:'',
         pageIndex: 1,
         pageSize: 10,
         totalPage: 0,
@@ -133,6 +134,9 @@
           if (data && data.code === 0) {
             this.dataList = data.page.list
             this.totalPage = data.page.totalCount
+            this.result = data.result
+            console.log(this.result+"--------------");
+            console.log(this.result == 0)
           } else {
             this.dataList = []
             this.totalPage = 0
@@ -206,8 +210,8 @@
           method: 'post',
           params: this.$http.adornParams({
             
-            'id':id
-            
+            'id':id,
+        
           })
         })
       },
@@ -218,7 +222,7 @@
           method: 'post',
           params: this.$http.adornParams({
             
-            'id':id
+            'id':id,
             
           })
         })

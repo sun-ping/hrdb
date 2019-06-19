@@ -29,9 +29,8 @@
        >
     </el-input>
     
-    
 
-    <el-button @click="add(textarea,telephone)" >添加</el-button> 
+    <el-button @click="add(textarea,telephone)" style="margin-top:20px">添加</el-button> 
 
     
     </el-dialog>
@@ -95,10 +94,7 @@ export default {
         })
       },
        
-        add (f1,f2,f3){
-          
-       
-        console.log(f3+"-----uid--"),
+        add (f1,f2){
        
            this.$http({
            url: this.$http.adornUrl('/generator/friends/add'),

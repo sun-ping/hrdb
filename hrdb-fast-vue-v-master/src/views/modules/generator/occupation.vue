@@ -1,5 +1,6 @@
 <template>
   <div class="mod-config">
+    
     <o-f v-bind:list="dataList"></o-f>
   </div>
 </template>
