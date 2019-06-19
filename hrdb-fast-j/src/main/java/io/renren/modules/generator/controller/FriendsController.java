@@ -182,11 +182,13 @@ public class FriendsController extends AbstractController {
         friend.setFriTime(day);
 
         List<FriendsEntity> list1 = friendsService.list(new QueryWrapper<FriendsEntity>().or(obj1 -> obj1.eq("fri_sender", fri_receiver).eq("fri_receiver", fri_sender)).or(obj1 -> obj1.eq("fri_sender", fri_sender).eq("fri_receiver", fri_receiver)));
-        if(list1.size()==0) {
+        if(list1.size()==0 && fri_receiver !=fri_sender) {
             friendsService.save(friend);
             return  R.ok().put("result",0);
+        }else if (fri_receiver == fri_sender){
+            return  R.ok().put("result", 2);
         }else{
-            return  R.ok().put("result", 1);
+            return R.ok().put("result",1);
         }
 
 

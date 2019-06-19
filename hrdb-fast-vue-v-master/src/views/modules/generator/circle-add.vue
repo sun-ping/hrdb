@@ -115,8 +115,10 @@ export default {
             if(this.result===1){
             this.$message('已经添加过');
             console.log("111111")
-            }else{
+            }else if(this.result ===0){
              this.$message('添加成功');
+            }else{
+              this.$message('登陆者id为发送者id')
             }
           
           
