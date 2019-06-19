@@ -45,8 +45,6 @@ public class RecordController {
 
         return R.ok().put("page", page);
     }
-
-
     /**
      * 信息
      */
@@ -68,7 +66,6 @@ public class RecordController {
 
         return R.ok().put("page", page);
     }
-
 
 
     /**
