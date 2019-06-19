@@ -78,7 +78,7 @@
 
     <el-form :model="dataForm" :rules="dataRule"  ref="dataForm" @keyup.enter.native="saveRecord()" label-width="80px" style="margin-top:20px;">
         <el-row>   
-              <el-form-item label="简历ID" prop="recordRId">
+              <el-form-item label="简历ID" prop="recordRId" v-show='false'>
                   <el-input v-model="dataForm.recordRId" placeholder="简历ID"></el-input>
               </el-form-item>
           <el-col :span="12">
